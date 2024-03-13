@@ -12,7 +12,7 @@
 
 
 import numpy as np
-from scipy.signal import fftconvolve
+from torchaudio.transforms import FFTConvolve
 
 # spread, in units of standard deviation, of the Gaussian window of the Morlet wavelet
 MORLET_SD_SPREAD = 6
