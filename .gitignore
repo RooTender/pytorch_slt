@@ -1,30 +1,3 @@
-# Compiled Object files
-*.obj
-
-# Precompiled Headers
-*.pch
-
-# VS user settings
-/.vs/
-/matlab-cdll/cdll-mex64/.vs
-
-# Build results
-/Debug/
-/Release/
-/x64/
-/matlab-cdll/cdll-mex64/x64
-/matlab-cdll/cdll-mex64/Debug
-/matlab-cdll/cdll-mex64/Release
-
 # pycache
 **/__pycache__/
 *.pyc
-
-# Compiled Dynamic libraries
-*.dll
-
-# Executables
-*.exe
-
-# local tests
-superlet_local_test.py
