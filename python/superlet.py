@@ -63,8 +63,9 @@ def morlet(fc, nc, fs):
 
     t = (np.array(range(size), dtype=np.float64) - half) * ifs
     wavelet = gauss * np.exp(2 * np.pi * fc * t * 1j) * igsum
-
+    
     return wavelet
+
 
 def fractional(x):
     """
@@ -202,6 +203,8 @@ class SuperletTransform:
                 for iWave in range(nWavelets):
                     self.convBuffer = fftconvolve(inputData, self.superlets[iFreq][iWave], "same")
                     self.poolBuffer *= 2 * np.abs(self.convBuffer) ** 2
+                    #print(self.convBuffer)
+                    #exit(0)
 
                 if fractional(self.orders[iFreq]) != 0 and len(self.superlets[iFreq]) == nWavelets + 1:
 
@@ -258,3 +261,27 @@ def superlets(data,
     faslt.clear()
 
     return result
+
+
+def amplitude_to_db(S, ref_power=None, amin=1e-5, top_db=80.0):
+    S_clamped = np.maximum(S, amin)
+    
+    if callable(ref_power):
+        # If ref_power is a function, use it to calculate the reference power.
+        ref_value = ref_power(S_clamped)
+    elif ref_power is None:
+        # If ref_power is not provided, use the maximum value of S_clamped.
+        ref_value = S_clamped.max()
+    else:
+        # If ref_power is a scalar, ensure it is not below amin.
+        ref_value = max(amin, ref_power)
+
+    log_spec = 10.0 * np.log10(S_clamped)
+    ref_log_spec = 10.0 * np.log10(ref_value)
+
+    S_db = log_spec - ref_log_spec
+
+    if top_db is not None:
+        S_db = np.maximum(S_db, S_db.max() - top_db)
+
+    return S_db
